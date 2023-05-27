@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/rundoo/server/cmd/web/domain"
+	"github.com/rundoo/cmdmain"
 )
 
 type CategoryDatabase struct {

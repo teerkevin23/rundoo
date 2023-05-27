@@ -1,10 +1,10 @@
 package usecase_test
 
 import (
-	"github.com/rundoo/server/cmd/web/usecase"
+	"github.com/rundoo/cmdecase"
 	"testing"
 
-	"github.com/rundoo/server/cmd/web/domain"
+	"github.com/rundoo/cmdmain"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 

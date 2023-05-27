@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/rundoo/server/cmd/web/domain"
+import "github.com/rundoo/cmdmain"
 
 type productUsecase struct {
 	productRepository domain.ProductRepository
