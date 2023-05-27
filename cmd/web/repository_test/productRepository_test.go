@@ -1,10 +1,14 @@
 package repository_test
 
 import (
-	"github.com/rundoo/cmd/web/domain"
-	"github.com/rundoo/cmd/web/repository"
-
+	"context"
 	"testing"
+	"fmt"
+
+	"github.com/teerkevin23/rundoo/cmd/web/domain"
+	"github.com/teerkevin23/rundoo/cmd/web/repository"
+	"github.com/stretchr/testify/assert"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 const (
@@ -20,6 +24,8 @@ func TestCreate(t *testing.T) {
 	}
 	mockEmptyProduct := &domain.Product{}
 	mockProductID := primitive.NewObjectID()
+
+	fmt.Println("...testing", mockEmptyProduct, mockProductID)
 
 	t.Run("success", func(t *testing.T) {
 		pr := repository.newProductRepository()

@@ -1,6 +1,9 @@
 package usecase
 
-import "github.com/rundoo/cmd/web/domain"
+import (
+	"context"
+	"github.com/teerkevin23/rundoo/cmd/web/domain"
+)
 
 type productUsecase struct {
 	productRepository domain.ProductRepository
@@ -10,19 +13,19 @@ func (productUsecase) Create(c interface{}, product *domain.Product) interface{}
 	panic("implement me")
 }
  */
-func (productUsecase) Create(c interface{}, product *domain.Product) error {
+func (productUsecase) Create(c context.Context, product *domain.Product) error {
 	panic("implement me")
 }
 
-func (productUsecase) FetchByCategory(c context.Context, categoryString string) ([]domain.Product, interface{}) {
+func (productUsecase) FetchByCategory(c context.Context, categoryString string) ([]domain.Product, error) {
 	panic("implement me")
 }
 
-func (productUsecase) FetchByName(c context.Context, nameString string) ([]domain.Product, interface{}) {
+func (productUsecase) FetchByName(c context.Context, nameString string) ([]domain.Product, error) {
 	panic("implement me")
 }
 
-func (productUsecase) FetchBySKU(c context.Context, skuString string) ([]domain.Product, interface{}) {
+func (productUsecase) FetchBySKU(c context.Context, skuString string) ([]domain.Product, error) {
 	panic("implement me")
 }
 /*

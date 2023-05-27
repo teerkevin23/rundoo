@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/rundoo/cmd/web/domain"
+	"github.com/teerkevin23/rundoo/cmd/web/domain"
 )
 
 type CategoryDatabase struct {
@@ -28,11 +28,11 @@ func newProductRepository() domain.ProductRepository {
 	skuDB := SKUDatabase{
 		database: map[string][]domain.Product{},
 	}
-
-	productDB := append(categoryDB, nameDB, skuDB)
+	productDB := make([]interface{}, 3)
+	db := append(productDB, categoryDB, nameDB, skuDB)
 
 	return &productRepository{
-		database: productDB,
+		database: db,
 	}
 }
 

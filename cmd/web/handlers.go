@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"example.com/internal/response"
+	"github.com/teerkevin23/rundoo/internal/response"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {

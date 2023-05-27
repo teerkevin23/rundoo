@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"example.com/assets"
+	"github.com/teerkevin23/rundoo/assets"
 
 	"github.com/julienschmidt/httprouter"
 )

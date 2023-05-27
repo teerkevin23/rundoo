@@ -2,7 +2,7 @@ package domain
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson/primitve"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 const (

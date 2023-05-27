@@ -1,10 +1,11 @@
 package usecase_test
 
 import (
-	"github.com/rundoo/cmd/web/domain"
-	"github.com/rundoo/cmd/web/usecase"
+	"context"
 	"testing"
 
+	"github.com/teerkevin23/rundoo/cmd/web/domain"
+	"github.com/teerkevin23/rundoo/cmd/web/usecase"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
@@ -12,7 +13,7 @@ import (
 )
 
 func TestFetchByCategory(t *testing.T) {
-	mockProductRepository := new(mocks.ProductRepository)
+	mockProductRepository := new(domain.ProductRepository)
 
 	t.Run("success", func(t *testing.T) {
 		mockProduct := domain.Product{

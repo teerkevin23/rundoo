@@ -5,7 +5,7 @@ import (
 
 	"fmt"
 
-	"example.com/internal/version"
+	"github.com/teerkevin23/rundoo/internal/version"
 )
 
 func (app *application) newTemplateData(r *http.Request) map[string]any {

@@ -5,8 +5,8 @@ import (
 	"html/template"
 	"net/http"
 
-	"example.com/assets"
-	"example.com/internal/funcs"
+	"github.com/teerkevin23/rundoo/assets"
+	"github.com/teerkevin23/rundoo/internal/funcs"
 )
 
 func Page(w http.ResponseWriter, status int, data any, pagePath string) error {

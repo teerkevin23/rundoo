@@ -9,7 +9,7 @@ import (
 	"runtime/debug"
 	"sync"
 
-	"example.com/internal/version"
+	"github.com/teerkevin23/rundoo/internal/version"
 )
 
 func main() {
