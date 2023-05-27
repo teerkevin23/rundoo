@@ -1,8 +1,8 @@
 package repository_test
 
 import (
-	"github.com/rundoo/cmdmain"
-	"github.com/rundoo/cmdpository"
+	"github.com/rundoo/cmd/web/domain"
+	"github.com/rundoo/cmd/web/repository"
 
 	"testing"
 	"go.mongodb.org/mongo-driver/bson/primitive"
