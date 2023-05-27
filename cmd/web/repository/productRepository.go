@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+
 	"github.com/teerkevin23/rundoo/cmd/web/domain"
 )
 
@@ -18,7 +19,7 @@ type productRepository struct {
 	database []interface{}
 }
 
-func newProductRepository() domain.ProductRepository {
+func NewProductRepository() domain.ProductRepository {
 	categoryDB := CategoryDatabase{
 		database: map[string][]domain.Product{},
 	}
@@ -40,11 +41,14 @@ func (pr *productRepository) Create(c context.Context, p *domain.Product) error 
 	return nil
 }
 func (pr *productRepository) FetchByCategory(c context.Context, categoryString string) ([]domain.Product, error) {
-	return []domain.Product{}, nil
+	var products []domain.Product
+	return products, nil
 }
 func (pr *productRepository) FetchByName(c context.Context, nameString string) ([]domain.Product, error) {
-	return []domain.Product{}, nil
+	var products []domain.Product
+	return products, nil
 }
 func (pr *productRepository) FetchBySKU(c context.Context, skuString string) ([]domain.Product, error) {
-	return []domain.Product{}, nil
+	var products []domain.Product
+	return products, nil
 }
