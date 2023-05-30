@@ -35,6 +35,9 @@ func TestCreate(t *testing.T) {
 		assert.NoError(t, err)
 	})
 	t.Run("error", func(t *testing.T) {
+		pr := repository.NewProductRepository()
+		err := pr.Create(context.Background(), mockProduct)
 
+		assert.Error(t, err)
 	})
 }
