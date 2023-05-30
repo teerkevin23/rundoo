@@ -12,15 +12,20 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 const (
-	CollectionTest = "test"
+	CollectionPaint = "PAINT"
 )
 
 func TestCreate(t *testing.T) {
-
 	mockProduct := &domain.Product{
 		ID: primitive.NewObjectID(),
-		Category:  CollectionTest,
+		Category:  CollectionPaint,
 		Name: "TestProduct",
+		SKU: "123456",
+	}
+	mockProduct2 := &domain.Product{
+		ID: primitive.NewObjectID(),
+		Category:  CollectionPaint,
+		Name: "TestProduct2",
 		SKU: "123456",
 	}
 	mockEmptyProduct := &domain.Product{}
@@ -31,8 +36,9 @@ func TestCreate(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		pr := repository.NewProductRepository()
 		err := pr.Create(context.Background(), mockProduct)
+		err2 := pr.Create(context.Background(), mockProduct2)
 
-		assert.NoError(t, err)
+		assert.NoError(t, err, err2)
 	})
 	t.Run("error", func(t *testing.T) {
 		pr := repository.NewProductRepository()

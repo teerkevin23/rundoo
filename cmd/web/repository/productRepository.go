@@ -2,34 +2,49 @@ package repository
 
 import (
 	"context"
-
+	"errors"
+	"fmt"
 	"github.com/teerkevin23/rundoo/cmd/web/domain"
 )
-
-type CategoryDatabase struct {
+const (
+	CAT = "CATEGORY"
+	NAME = "NAME"
+	SKU = "SKU"
+)
+type Database struct {
+	typeOfDb string
 	database map[string][]domain.Product
 }
-type NameDatabase struct {
-	database map[string][]domain.Product
-}
-type SKUDatabase struct {
-	database map[string][]domain.Product
-}
+//type CategoryDatabase struct {
+//	TypeOfDb string
+//	database map[string][]domain.Product
+//}
+//type NameDatabase struct {
+//	TypeOfDb string
+//	database map[string][]domain.Product
+//}
+//type SKUDatabase struct {
+//	TypeOfDb string
+//	database map[string][]domain.Product
+//}
 type productRepository struct {
-	database []interface{}
+	database []Database
 }
 
 func NewProductRepository() domain.ProductRepository {
-	categoryDB := CategoryDatabase{
+	categoryDB := Database{
+		typeOfDb: CAT,
 		database: map[string][]domain.Product{},
 	}
-	nameDB := NameDatabase{
+	nameDB := Database{
+		typeOfDb: NAME,
 		database: map[string][]domain.Product{},
 	}
-	skuDB := SKUDatabase{
+	skuDB := Database{
+		typeOfDb: SKU,
 		database: map[string][]domain.Product{},
 	}
-	productDB := make([]interface{}, 3)
+	productDB := make([]Database, 0)
 	db := append(productDB, categoryDB, nameDB, skuDB)
 
 	return &productRepository{
@@ -38,6 +53,23 @@ func NewProductRepository() domain.ProductRepository {
 }
 
 func (pr *productRepository) Create(c context.Context, p *domain.Product) error {
+	// fake DB connection
+	pDB := pr.database
+	fmt.Println("in create!!!", p, pDB)
+
+	for index, db := range pDB {
+		fmt.Println(index, db.typeOfDb, db.database)
+		fakeInsertOne(db, *p)
+	}
+
+	for index, db := range pDB {
+		fmt.Println("***********")
+		fmt.Println(index, db.typeOfDb, db.database)
+	}
+
+	// insert one
+
+
 	return nil
 }
 func (pr *productRepository) FetchByCategory(c context.Context, categoryString string) ([]domain.Product, error) {
@@ -51,4 +83,41 @@ func (pr *productRepository) FetchByName(c context.Context, nameString string) (
 func (pr *productRepository) FetchBySKU(c context.Context, skuString string) ([]domain.Product, error) {
 	var products []domain.Product
 	return products, nil
+}
+
+func fakeInsertOne(db Database, value domain.Product) error {
+	fmt.Println(db.typeOfDb, db.database, value)
+	if db.typeOfDb == CAT {
+		fmt.Println("found cat", value.Category)
+		if _, ok := db.database[value.Category]; ok {
+			fmt.Println("!!! KEY FOUND", db.database[value.Category])
+			db.database[value.Category] = append(db.database[value.Category], value)
+		} else {
+			fmt.Println("key DNE")
+			db.database[value.Category] = append(db.database[value.Category], value)
+		}
+		fmt.Println("end", db.database)
+	}
+	if db.typeOfDb == NAME {
+		fmt.Println("found name", value.Name)
+		if _, ok := db.database[value.Name]; ok {
+			db.database[value.Name] = append(db.database[value.Name], value)
+		} else {
+			fmt.Println("key DNE")
+			db.database[value.Name] = append(db.database[value.Name], value)
+		}
+	}
+	if db.typeOfDb == SKU {
+		fmt.Println("found sku", value.SKU)
+		if _, ok := db.database[value.SKU]; ok {
+			SKU_error := errors.New("Duplicate SKU")
+			fmt.Println(SKU_error)
+			return SKU_error
+		} else {
+			fmt.Println("key DNE")
+			db.database[value.SKU] = append(db.database[value.Name], value)
+		}
+	}
+
+	return nil
 }

@@ -17,8 +17,8 @@ Then visit [http://localhost:4444](http://localhost:4444) in your browser to ens
 ## Notes during Development process
 - mongo driver for primitive ID 
 - set up Tests (signatures) for repository, usecase implementation per requirements (TDD)
-- taking break (its been a while!)
-- 
+- implement API, but with minimal specifications for user ease and scope
+-   
 
 
 
