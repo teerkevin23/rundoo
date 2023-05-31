@@ -55,24 +55,46 @@ func NewProductRepository() domain.ProductRepository {
 func (pr *productRepository) Get(c context.Context, filter string) ([]domain.Product, error) {
 	pDB := pr.database
 	var listOfProducts []domain.Product
+	var mapOfProducts = make(map[string]domain.Product)
+	fmt.Println(mapOfProducts)
 	if filter == "" {
+		// TODO should optimize this
 		fmt.Println("no filter")
 		for _, db := range pDB {
 			fmt.Println(db)
 			for _, subDB := range db.database {
 				fmt.Println(subDB)
 				for _, product := range subDB {
-					fmt.Println(product)
-					listOfProducts = append(listOfProducts, product)
+					mapOfProducts[product.SKU] = product
 				}
 			}
 		}
 
+		for _, element := range mapOfProducts {
+			listOfProducts = append(listOfProducts, element)
+		}
+
 		return listOfProducts, nil
 	}
-	// do more
+	fmt.Println("kevinteer")
+	// everything else
+	for _, db := range pDB {
+		fmt.Println("s", db)
+		m1 := db.database
+		val, ok := m1[filter]
+		if ok {
+			fmt.Println("justi", val)
+			for _, product := range val {
+				mapOfProducts[product.SKU] = product
+			}
+		}
+	}
 
-	return nil, nil
+	for _, element := range mapOfProducts {
+		listOfProducts = append(listOfProducts, element)
+	}
+
+	return listOfProducts, nil
 }
 
 func (pr *productRepository) Create(c context.Context, p *domain.Product) error {

@@ -11,6 +11,7 @@ type productUsecase struct {
 }
 
 func (usecase *productUsecase) Get(c context.Context, filter string) ([]domain.Product, error) {
+	fmt.Println("in get,", filter)
 	products, err := usecase.productRepository.Get(c, filter)
 	fmt.Println("in get", products, err)
 	return products, err

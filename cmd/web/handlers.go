@@ -79,7 +79,7 @@ func (app *application) getProducts(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		app.serverError(w, r, err)
 	}
-	fmt.Println(productList)
+	fmt.Println("before ret", productList)
 
 	response, err := json.Marshal(productList)
 	if err != nil {
