@@ -20,6 +20,7 @@ type Product struct {
 
 type ProductRepository interface {
 	Create(c context.Context, product *Product) error
+	Get(c context.Context, filter string) ([]Product, error)
 	FetchByCategory(c context.Context, categoryString string) ([]Product, error)
 	FetchByName(c context.Context, nameString string) ([]Product, error)
 	FetchBySKU(c context.Context, skuString string) ([]Product, error)
@@ -27,6 +28,7 @@ type ProductRepository interface {
 
 type ProductUsecase interface {
 	Create(c context.Context, product *Product) error
+	Get(c context.Context, filter string) ([]Product, error)
 	FetchByCategory(c context.Context, categoryString string) ([]Product, error)
 	FetchByName(c context.Context, nameString string) ([]Product, error)
 	FetchBySKU(c context.Context, skuString string) ([]Product, error)

@@ -9,7 +9,11 @@ import (
 	"runtime/debug"
 	"sync"
 
+	"github.com/teerkevin23/rundoo/cmd/web/repository"
+	"github.com/teerkevin23/rundoo/cmd/web/usecase"
+
 	"github.com/teerkevin23/rundoo/internal/version"
+	"github.com/teerkevin23/rundoo/cmd/web/domain"
 )
 
 func main() {
@@ -31,6 +35,7 @@ type application struct {
 	config config
 	logger *log.Logger
 	wg     sync.WaitGroup
+	ProductUsecase domain.ProductUsecase
 }
 
 
@@ -53,10 +58,11 @@ func run(logger *log.Logger) error {
 		fmt.Printf("version: %s\n", version.Get())
 		return nil
 	}
-
+	productRepository := repository.NewProductRepository()
 	app := &application{
 		config: cfg,
 		logger: logger,
+		ProductUsecase: usecase.NewProductUsecase(productRepository),
 	}
 
 	ctx := context.TODO()

@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"context"
 	"github.com/teerkevin23/rundoo/cmd/web/domain"
 )
@@ -8,8 +9,15 @@ import (
 type productUsecase struct {
 	productRepository domain.ProductRepository
 }
+
+func (usecase *productUsecase) Get(c context.Context, filter string) ([]domain.Product, error) {
+	products, err := usecase.productRepository.Get(c, filter)
+	fmt.Println("in get", products, err)
+	return products, err
+}
+
 func (usecase *productUsecase) Create(c context.Context, product *domain.Product) error {
-	return nil
+	return usecase.productRepository.Create(c, product)
 }
 
 func (usecase *productUsecase) FetchByCategory(c context.Context, categoryString string) ([]domain.Product, error) {

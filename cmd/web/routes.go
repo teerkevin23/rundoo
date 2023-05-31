@@ -16,6 +16,9 @@ func (app *application) routes() http.Handler {
 	mux.Handler("GET", "/static/*filepath", fileServer)
 
 	mux.HandlerFunc("GET", "/", app.home)
+	mux.HandlerFunc("POST", "/createProduct", app.createProduct)
+	mux.HandlerFunc("GET", "/getProducts", app.getProducts)
+
 
 	return app.recoverPanic(app.securityHeaders(mux))
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"github.com/teerkevin23/rundoo/cmd/web/domain"
 )
 const (
@@ -51,23 +52,48 @@ func NewProductRepository() domain.ProductRepository {
 		database: db,
 	}
 }
+func (pr *productRepository) Get(c context.Context, filter string) ([]domain.Product, error) {
+	pDB := pr.database
+	var listOfProducts []domain.Product
+	if filter == "" {
+		fmt.Println("no filter")
+		for _, db := range pDB {
+			fmt.Println(db)
+			for _, subDB := range db.database {
+				fmt.Println(subDB)
+				for _, product := range subDB {
+					fmt.Println(product)
+					listOfProducts = append(listOfProducts, product)
+				}
+			}
+		}
+
+		return listOfProducts, nil
+	}
+	// do more
+
+	return nil, nil
+}
 
 func (pr *productRepository) Create(c context.Context, p *domain.Product) error {
+	productId :=  primitive.NewObjectID()
+	p.ID = productId
 	// fake DB connection
 	pDB := pr.database
 	fmt.Println("in create!!!", p, pDB)
 
 	for index, db := range pDB {
 		fmt.Println(index, db.typeOfDb, db.database)
-		fakeInsertOne(db, *p)
+		err := fakeInsertOne(db, *p)
+		if err != nil {
+			return err
+		}
 	}
 
 	for index, db := range pDB {
 		fmt.Println("***********")
 		fmt.Println(index, db.typeOfDb, db.database)
 	}
-
-	// insert one
 
 
 	return nil
