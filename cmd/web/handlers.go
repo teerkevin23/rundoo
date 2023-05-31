@@ -41,11 +41,6 @@ func (app *application) createProduct(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		app.conflict(w, r, err)
 	}
-
-	//productMarshall, err := json.Marshal(product)
-	//fmt.Println(productMarshall, err)
-	//fmt.Println(product)
-	fmt.Fprintf(w, "")
 }
 
 func (app *application) getProducts(w http.ResponseWriter, r *http.Request) {

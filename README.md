@@ -30,7 +30,7 @@ Then visit [http://localhost:4444](http://localhost:4444) in your browser to ens
 - full-text string match means exact match on key
 - dedupes against multiple databases
 
-Retrospective Overview:
+# Retrospective Overview:
 - had a bunch of small issues resolving (old) laptop with GO configuration issues + new project
 - decided to try to implement TDD for best practices and wrote (some) unit tests first before any actual development
 
