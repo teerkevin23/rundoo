@@ -122,12 +122,6 @@ func (pr *productRepository) Create(c context.Context, p *domain.Product) error 
 
 // fake implementation of an InsertOne onto three separate 'databases' as actual slice objects
 func fakeInsertOne(db Database, value domain.Product) error {
-	if db.typeOfDb == CAT {
-		db.database[value.Category] = append(db.database[value.Category], value)
-	}
-	if db.typeOfDb == NAME {
-		db.database[value.Name] = append(db.database[value.Name], value)
-	}
 	// cannot have duplicate SKUs
 	if db.typeOfDb == SKU {
 		if _, ok := db.database[value.SKU]; ok {
@@ -136,7 +130,16 @@ func fakeInsertOne(db Database, value domain.Product) error {
 			return SKU_error
 		} else {
 			db.database[value.SKU] = append(db.database[value.Name], value)
+			return nil
 		}
+	}
+	if db.typeOfDb == CAT {
+		db.database[value.Category] = append(db.database[value.Category], value)
+		return nil
+	}
+	if db.typeOfDb == NAME {
+		db.database[value.Name] = append(db.database[value.Name], value)
+		return nil
 	}
 
 	return nil
