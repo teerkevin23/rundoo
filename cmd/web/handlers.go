@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"net/http"
-	"fmt"
 	"encoding/json"
 
 	"github.com/teerkevin23/rundoo/cmd/web/domain"
