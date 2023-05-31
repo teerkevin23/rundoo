@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"errors"
-	"fmt"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"github.com/teerkevin23/rundoo/cmd/web/domain"
 )
@@ -56,14 +55,10 @@ func (pr *productRepository) Get(c context.Context, filter string) ([]domain.Pro
 	pDB := pr.database
 	var listOfProducts []domain.Product
 	var mapOfProducts = make(map[string]domain.Product)
-	fmt.Println(mapOfProducts)
 	if filter == "" {
-		// TODO should optimize this
-		fmt.Println("no filter")
+		// TODO should optimize this...
 		for _, db := range pDB {
-			fmt.Println(db)
 			for _, subDB := range db.database {
-				fmt.Println(subDB)
 				for _, product := range subDB {
 					mapOfProducts[product.SKU] = product
 				}
@@ -76,14 +71,12 @@ func (pr *productRepository) Get(c context.Context, filter string) ([]domain.Pro
 
 		return listOfProducts, nil
 	}
-	fmt.Println("kevinteer")
-	// everything else
+
+	// all other filters
 	for _, db := range pDB {
-		fmt.Println("s", db)
 		m1 := db.database
 		val, ok := m1[filter]
 		if ok {
-			fmt.Println("justi", val)
 			for _, product := range val {
 				mapOfProducts[product.SKU] = product
 			}
@@ -102,67 +95,46 @@ func (pr *productRepository) Create(c context.Context, p *domain.Product) error 
 	p.ID = productId
 	// fake DB connection
 	pDB := pr.database
-	fmt.Println("in create!!!", p, pDB)
 
-	for index, db := range pDB {
-		fmt.Println(index, db.typeOfDb, db.database)
+	for _, db := range pDB {
 		err := fakeInsertOne(db, *p)
 		if err != nil {
 			return err
 		}
 	}
 
-	for index, db := range pDB {
-		fmt.Println("***********")
-		fmt.Println(index, db.typeOfDb, db.database)
-	}
-
-
 	return nil
 }
-func (pr *productRepository) FetchByCategory(c context.Context, categoryString string) ([]domain.Product, error) {
-	var products []domain.Product
-	return products, nil
-}
-func (pr *productRepository) FetchByName(c context.Context, nameString string) ([]domain.Product, error) {
-	var products []domain.Product
-	return products, nil
-}
-func (pr *productRepository) FetchBySKU(c context.Context, skuString string) ([]domain.Product, error) {
-	var products []domain.Product
-	return products, nil
-}
+// decided not to implement these as a result of complete (exact) string matching on fetch and to fetch
+// all at once
+//func (pr *productRepository) FetchByCategory(c context.Context, categoryString string) ([]domain.Product, error) {
+//	var products []domain.Product
+//	return products, nil
+//}
+//func (pr *productRepository) FetchByName(c context.Context, nameString string) ([]domain.Product, error) {
+//	var products []domain.Product
+//	return products, nil
+//}
+//func (pr *productRepository) FetchBySKU(c context.Context, skuString string) ([]domain.Product, error) {
+//	var products []domain.Product
+//	return products, nil
+//}
 
+// fake implementation of an InsertOne onto three separate 'databases' as actual slice objects
 func fakeInsertOne(db Database, value domain.Product) error {
-	fmt.Println(db.typeOfDb, db.database, value)
 	if db.typeOfDb == CAT {
-		fmt.Println("found cat", value.Category)
-		if _, ok := db.database[value.Category]; ok {
-			fmt.Println("!!! KEY FOUND", db.database[value.Category])
-			db.database[value.Category] = append(db.database[value.Category], value)
-		} else {
-			fmt.Println("key DNE")
-			db.database[value.Category] = append(db.database[value.Category], value)
-		}
-		fmt.Println("end", db.database)
+		db.database[value.Category] = append(db.database[value.Category], value)
 	}
 	if db.typeOfDb == NAME {
-		fmt.Println("found name", value.Name)
-		if _, ok := db.database[value.Name]; ok {
-			db.database[value.Name] = append(db.database[value.Name], value)
-		} else {
-			fmt.Println("key DNE")
-			db.database[value.Name] = append(db.database[value.Name], value)
-		}
+		db.database[value.Name] = append(db.database[value.Name], value)
 	}
+	// cannot have duplicate SKUs
 	if db.typeOfDb == SKU {
-		fmt.Println("found sku", value.SKU)
 		if _, ok := db.database[value.SKU]; ok {
-			SKU_error := errors.New("Duplicate SKU")
-			fmt.Println(SKU_error)
+			error := errors.New("Duplicate SKU error: cannot have duplicate SKU")
+			SKU_error := domain.NewErrorWrapper(409, error, "bad data")
 			return SKU_error
 		} else {
-			fmt.Println("key DNE")
 			db.database[value.SKU] = append(db.database[value.Name], value)
 		}
 	}

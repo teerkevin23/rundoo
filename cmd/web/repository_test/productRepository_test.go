@@ -26,7 +26,13 @@ func TestCreate(t *testing.T) {
 		ID: primitive.NewObjectID(),
 		Category:  CollectionPaint,
 		Name: "TestProduct2",
-		SKU: "123456",
+		SKU: "123457",
+	}
+	mockProduct2DuplicateSKU := &domain.Product{
+		ID: primitive.NewObjectID(),
+		Category:  CollectionPaint,
+		Name: "TestProduct3",
+		SKU: "123457",
 	}
 	mockEmptyProduct := &domain.Product{}
 	mockProductID := primitive.NewObjectID()
@@ -36,14 +42,15 @@ func TestCreate(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		pr := repository.NewProductRepository()
 		err := pr.Create(context.Background(), mockProduct)
-		err2 := pr.Create(context.Background(), mockProduct2)
 
-		assert.NoError(t, err, err2)
+		assert.NoError(t, err)
 	})
-	t.Run("error", func(t *testing.T) {
+	t.Run("error with duplicate SKUs", func(t *testing.T) {
 		pr := repository.NewProductRepository()
-		err := pr.Create(context.Background(), mockProduct)
+		err := pr.Create(context.Background(), mockProduct2)
+		err2 := pr.Create(context.Background(), mockProduct2DuplicateSKU)
 
-		assert.Error(t, err)
+		assert.NoError(t, err)
+		assert.Error(t, err2)
 	})
 }

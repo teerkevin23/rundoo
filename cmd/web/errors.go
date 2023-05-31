@@ -26,3 +26,7 @@ func (app *application) notFound(w http.ResponseWriter, r *http.Request) {
 func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error) {
 	http.Error(w, err.Error(), http.StatusBadRequest)
 }
+
+func (app *application) conflict(w http.ResponseWriter, r *http.Request, err error) {
+	http.Error(w, err.Error(), http.StatusConflict)
+}

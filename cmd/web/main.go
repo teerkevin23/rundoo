@@ -65,8 +65,5 @@ func run(logger *log.Logger) error {
 		ProductUsecase: usecase.NewProductUsecase(productRepository),
 	}
 
-	ctx := context.TODO()
-	doSomething(ctx)
-
 	return app.serveHTTP()
 }
